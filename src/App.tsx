@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, BedDouble, Building2, Check, Heart, MapPin, Moon, Search, ShieldCheck, Sparkles, Sun, UserRound } from "lucide-react";
 import { createInquiry, createListing, getCatalog, getMyInquiries, getMyListings, getReceivedInquiries, getReviewQueue, getSavedListings, listListings, login, moderateListing, register, removeListing, removeSavedListing, saveListing, submitListing, updateListing, type AuthUser, type CatalogItem, type Inquiry, type Listing } from "./api";
 import { LanguageProvider, LocalizedTree, useLanguage } from "./i18n";
+import SupportBot from "./SupportBot";
 
 const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85";
 const formatPrice = (listing: Listing, locale: string) => `${listing.priceMMK.toLocaleString("en-US")} MMK${listing.transactionType === "RENT" ? (locale === "my" ? " / လ" : " / month") : ""}`;
@@ -87,5 +88,5 @@ function AppContent() {
 
 
 export default function App() {
-  return <LanguageProvider><AppContent /></LanguageProvider>;
+  return <LanguageProvider><AppContent /><SupportBot /></LanguageProvider>;
 }
