@@ -154,18 +154,19 @@ body { background: #f8f7f3; transition: background-color .2s ease, color .2s eas
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
 :root[data-locale="my"] { font-family: "Myanmar Text", "Noto Sans Myanmar", sans-serif; }
 :root[data-locale="my"] body { font-family: "Myanmar Text", "Noto Sans Myanmar", sans-serif; }
-:root[data-locale="my"] h1, :root[data-locale="my"] h2, :root[data-locale="my"] h3 { letter-spacing: normal; }
 :root[data-theme="dark"] .language-picker select { color: #e8eee9; border-color: #46564c; background-color: #18211c; }
 :root[data-locale="my"] h1 em, :root[data-locale="my"] h2 em { font-family: "Myanmar Text", "Noto Sans Myanmar", sans-serif; }
-/* Inherit natural font metrics for Myanmar text instead of forcing a line height. */
-:root[data-locale="my"] * { line-height: unset; }
-:root[data-locale="my"] h1 { font-size: clamp(30px, 3.6vw, 46px); letter-spacing: normal; }
-:root[data-locale="my"] h2 { font-size: clamp(25px, 2.8vw, 36px); letter-spacing: normal; }
-:root[data-locale="my"] h3 { letter-spacing: normal; }
+:root[data-locale="my"] * { letter-spacing: normal; line-height: normal; }
+:root[data-locale="my"] h1 { font-size: clamp(30px, 3.6vw, 46px); }
+:root[data-locale="my"] h2 { font-size: clamp(25px, 2.8vw, 36px); }
 @media (max-width: 580px) {
   :root[data-locale="my"] h1 { font-size: 32px; }
   :root[data-locale="my"] h2 { font-size: 27px; }
 }
+
+.header-account > button { min-height: 44px; line-height: normal; }
+.header-account > .button, .header-account > .language-toggle { height: 44px; padding-block: 0; }
+.header-account > .theme-toggle { width: 44px; height: 44px; flex-basis: 44px; }
 
 .search-filters { display: grid; grid-column: 1 / -1; grid-template-columns: repeat(auto-fit, minmax(min(100%, 130px), 1fr)); gap: 10px; width: 100%; min-width: 0; box-sizing: border-box; padding: 5px 4px 3px; }
 .search-filters label { display: grid; min-width: 0; gap: 5px; color: #53645b; font-size: 11px; font-weight: 700; }
