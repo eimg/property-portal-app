@@ -1,0 +1,51 @@
+name: Deploy web app
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-app
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24.14.1'
+          package-manager-cache: false
+      - name: Build web app
+        env:
+          VITE_API_URL: /api/v1
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+      - name: Configure deployment SSH
+        env:
+          DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
+          DEPLOY_KNOWN_HOSTS: ${{ vars.DEPLOY_KNOWN_HOSTS }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: bash .github/configure-ssh.sh
+      - name: Upload and deploy web app
+        run: |
+          archive="/tmp/property-app-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.tar.gz"
+          tar -czf "$RUNNER_TEMP/app.tar.gz" -C dist .
+          scp "$RUNNER_TEMP/app.tar.gz" "property-demo:$archive"
+          ssh property-demo "bash -s -- '$archive'" < .github/deploy.sh
+      - name: Check public web app
+        env:
+          DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
+        run: curl --fail --silent --show-error --max-time 15 --output /dev/null "http://$DEPLOY_HOST/"
+      - name: Remove deployment key
+        if: always()
+        run: rm -f "$HOME/.ssh/property-deploy"
