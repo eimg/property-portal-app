@@ -89,7 +89,7 @@ export default function SupportBot() {
               <>
                 <div className="support-greeting">
                   <span className="support-bot-icon"><Bot size={17} /></span>
-                  <p>Hi! I can help with common questions about using Property Portal.</p>
+                  <p>Hi! I can help with common questions about using Thuta Property.</p>
                 </div>
                 <div className="support-faq-list" aria-label="Frequently asked questions">
                   {faqs.map((faq, index) => (
